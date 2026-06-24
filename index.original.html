@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The AI Intensive — A 2-Hour Cohort · From Zero to Capable</title>
+<style>
+  /* ============================================================ THEME ============================================================ */
+  :root{
+    --bg:#f6f3ec; --bg-2:#fbf9f4; --surface:#ffffff; --surface-2:#f2ebdf; --surface-3:#ece3d4;
+    --ink:#1e1c18; --ink-2:#3a362e; --muted:#6c675d; --faint:#9a9488;
+    --accent:#d97757; --accent-2:#e0a07c; --accent-dark:#bd5634; --accent-soft:#f8e9e0; --accent-glow:rgba(217,119,87,.18);
+    --violet:#6c5ce0; --violet-soft:#ece9fb; --teal:#2f9e8f; --teal-soft:#e2f2ef; --gold:#b07d23; --gold-soft:#f7eed6;
+    --line:#e7e0d2; --line-2:#dbd1bf;
+    --good:#4d7c4d; --good-soft:#e6f0e3; --good-line:#cee0ca;
+    --warn:#b07d23; --warn-soft:#f7eed6; --warn-line:#ecdcab;
+    --info:#3f5478; --info-soft:#eaeef6; --info-line:#d4dcec;
+    --shadow-sm:0 1px 2px rgba(50,40,25,.05);
+    --shadow:0 2px 6px rgba(50,40,25,.05),0 14px 38px rgba(50,40,25,.07);
+    --shadow-lg:0 8px 22px rgba(50,40,25,.10),0 30px 70px rgba(50,40,25,.12);
+    --radius:18px; --radius-sm:12px;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --mono:"SF Mono",ui-monospace,Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  [data-theme="dark"]{
+    --bg:#17150f; --bg-2:#1d1a13; --surface:#221e16; --surface-2:#2b251b; --surface-3:#332c1f;
+    --ink:#f3eee3; --ink-2:#ddd6c8; --muted:#a89f8f; --faint:#7d7565;
+    --accent:#e0875f; --accent-2:#eaa884; --accent-dark:#f0a079; --accent-soft:#3a2c22; --accent-glow:rgba(224,135,95,.22);
+    --violet:#9d8cf0; --violet-soft:#272338; --teal:#5cc0b0; --teal-soft:#1c2e2b; --gold:#d6b15f; --gold-soft:#332a16;
+    --line:#372f22; --line-2:#48402f;
+    --good:#85b585; --good-soft:#26301f; --good-line:#3c4a33;
+    --warn:#d6b15f; --warn-soft:#332a16; --warn-line:#4c4023;
+    --info:#9db0d6; --info-soft:#222732; --info-line:#363f55;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.3); --shadow:0 2px 6px rgba(0,0,0,.3),0 14px 38px rgba(0,0,0,.4); --shadow-lg:0 8px 22px rgba(0,0,0,.4),0 30px 70px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:radial-gradient(55vw 45vh at 82% -8%,var(--accent-glow),transparent 60%),radial-gradient(45vw 38vh at 5% 4%,rgba(108,92,224,.08),transparent 60%)}
+  a{color:var(--accent-dark);text-decoration:none}a:hover{text-decoration:underline}
+  ::selection{background:var(--accent-soft);color:var(--accent-dark)}
+
+  .shell{display:flex;min-height:100vh}
+  .sidebar{width:316px;flex:0 0 316px;position:sticky;top:0;height:100vh;overflow-y:auto;padding:20px 14px 48px;border-right:1px solid var(--line);background:linear-gradient(180deg,var(--bg-2),var(--bg))}
+  .sidebar::-webkit-scrollbar{width:8px}.sidebar::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:8px}
+  .main{flex:1;min-width:0}
+  .wrap{max-width:900px;margin:0 auto;padding:0 30px 140px}
+
+  .topbar{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:saturate(150%) blur(12px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:10px 30px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--serif);font-weight:600;font-size:17px}
+  .brand .logo{width:30px;height:30px;border-radius:9px;flex:0 0 auto;background:linear-gradient(135deg,var(--accent),var(--accent-dark));display:grid;place-items:center;color:#fff;font-size:16px;box-shadow:var(--shadow-sm)}
+  .brand b{color:var(--accent-dark)}
+  .topbar .spacer{flex:1}
+  .timer{display:flex;align-items:center;gap:11px;background:var(--surface);border:1px solid var(--line-2);border-radius:999px;padding:5px 7px 5px 15px;box-shadow:var(--shadow-sm)}
+  .timer .clock{font-variant-numeric:tabular-nums;font-weight:700;font-size:16px;min-width:70px;letter-spacing:.3px}
+  .timer .sub{font-size:11px;color:var(--muted);max-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .btn{border:1px solid var(--line-2);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:.16s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+  .btn:hover{border-color:var(--accent);color:var(--accent-dark);transform:translateY(-1px)}.btn:active{transform:translateY(0)}
+  .btn.primary{background:linear-gradient(135deg,var(--accent),var(--accent-dark));border-color:transparent;color:#fff;box-shadow:0 4px 14px var(--accent-glow)}
+  .btn.primary:hover{color:#fff;filter:brightness(1.05)}
+  .btn.tiny{padding:5px 11px;font-size:12px}.btn.icon{padding:8px;width:38px;height:38px;justify-content:center}
+
+  .sb-title{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);font-weight:800;margin:0 10px 9px}
+  .sb-progress{margin:0 8px 14px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;box-shadow:var(--shadow-sm)}
+  .ring-row{display:flex;align-items:center;gap:12px}
+  .ring{position:relative;width:44px;height:44px;flex:0 0 auto}.ring svg{transform:rotate(-90deg)}
+  .ring .pct{position:absolute;inset:0;display:grid;place-items:center;font-size:11.5px;font-weight:700;color:var(--accent-dark)}
+  .sb-progress .lbl b{display:block;font-size:13px;color:var(--ink)}.sb-progress .lbl span{font-size:11px;color:var(--muted)}
+
+  nav.toc a{display:flex;gap:9px;align-items:center;padding:7px 10px;border-radius:10px;color:var(--ink-2);font-size:13px;line-height:1.25;margin-bottom:1px;position:relative;transition:.14s}
+  nav.toc a .t{font-variant-numeric:tabular-nums;color:var(--faint);font-size:11px;font-weight:800;min-width:20px;text-align:center}
+  nav.toc a .nm{flex:1}
+  nav.toc a:hover{background:var(--surface-2);text-decoration:none}
+  nav.toc a.active{background:var(--accent-soft);color:var(--accent-dark);font-weight:600}
+  nav.toc a.active .t{color:var(--accent-dark)}
+  nav.toc a.active::before{content:"";position:absolute;left:-14px;top:7px;bottom:7px;width:3px;border-radius:3px;background:var(--accent)}
+  nav.toc .part{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-dark);font-weight:800;margin:14px 10px 5px;display:flex;align-items:center;gap:7px}
+  nav.toc .part:before{content:"";flex:0 0 10px;height:2px;background:var(--accent);border-radius:2px}
+
+  .hero{padding:50px 0 30px;position:relative}
+  .kicker{display:inline-flex;align-items:center;gap:8px;background:var(--accent-soft);color:var(--accent-dark);font-weight:800;font-size:11px;letter-spacing:.09em;text-transform:uppercase;padding:7px 14px;border-radius:99px;margin-bottom:20px;border:1px solid color-mix(in srgb,var(--accent) 25%,transparent)}
+  .kicker .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-glow);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+  h1.title{font-family:var(--serif);font-size:50px;line-height:1.04;margin:.1em 0 .3em;font-weight:600;letter-spacing:-1px}
+  h1.title .em{background:linear-gradient(120deg,var(--accent-dark),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lede{font-size:19px;color:var(--muted);max-width:62ch;line-height:1.55}.lede b{color:var(--ink-2)}
+  .stats{display:flex;gap:0;margin:30px 0 8px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface);box-shadow:var(--shadow-sm)}
+  .stats .s{flex:1;padding:16px 18px;border-right:1px solid var(--line)}
+  .stats .s:last-child{border-right:none}
+  .stats .s b{display:block;font-family:var(--serif);font-size:24px;color:var(--ink);font-weight:600}
+  .stats .s span{font-size:12px;color:var(--muted);font-weight:600}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+
+  /* syllabus overview */
+  .syllabus{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:18px 0}
+  .syl{display:flex;gap:13px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px 16px;box-shadow:var(--shadow-sm);transition:.16s}
+  .syl:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:var(--line-2)}
+  .syl .pn{flex:0 0 auto;width:34px;height:34px;border-radius:10px;background:var(--accent-soft);color:var(--accent-dark);display:grid;place-items:center;font-weight:800;font-size:14px}
+  .syl h4{margin:0 0 2px;font-size:15px}.syl p{margin:0;font-size:12.5px;color:var(--muted)}
+  .syl .mn{margin-left:auto;font-size:11px;font-weight:700;color:var(--faint);white-space:nowrap}
+
+  section.mod{padding:48px 0;border-top:1px solid var(--line);scroll-margin-top:74px}
+  section.mod:first-of-type{border-top:none}
+  .mod-head{display:flex;align-items:flex-start;gap:18px;margin-bottom:6px}
+  .mod-num{flex:0 0 auto;width:54px;height:54px;border-radius:15px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;display:grid;place-items:center;font-family:var(--serif);font-size:23px;font-weight:600;box-shadow:0 6px 18px var(--accent-glow)}
+  .mod-num.alt{background:linear-gradient(135deg,var(--ink-2),var(--ink))}
+  .mod-num.v{background:linear-gradient(135deg,var(--violet),#5043b8)}
+  .mod-meta{flex:1;padding-top:3px}
+  .mod-time{font-size:11.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--accent-dark);display:inline-flex;align-items:center;gap:7px}
+  .mod-time .chip{background:var(--accent-soft);padding:2px 9px;border-radius:99px}
+  h2.mod-title{font-family:var(--serif);font-size:32px;margin:4px 0 0;font-weight:600;letter-spacing:-.4px;line-height:1.12}
+
+  .objective{background:linear-gradient(100deg,var(--surface-2),transparent);border:1px solid var(--line);border-radius:14px;padding:13px 17px;margin:20px 0 4px;font-size:14px;color:var(--ink-2);display:flex;gap:12px;align-items:flex-start}
+  .objective .ic{color:var(--accent-dark);font-size:17px;line-height:1.3}.objective b{color:var(--ink)}
+
+  h3.sub{font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);font-weight:800;margin:32px 0 13px;display:flex;align-items:center;gap:10px}
+  h3.sub:before{content:"";width:22px;height:2px;background:var(--accent);border-radius:2px;opacity:.6}
+  p{margin:0 0 14px}
+  .lead{font-size:17px;color:var(--ink-2)}
+
+  .grid{display:grid;gap:13px;margin:18px 0}
+  .grid.two{grid-template-columns:1fr 1fr}.grid.three{grid-template-columns:repeat(3,1fr)}.grid.four{grid-template-columns:repeat(4,1fr)}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:17px;box-shadow:var(--shadow-sm);transition:.18s}
+  .card:hover{box-shadow:var(--shadow);transform:translateY(-2px);border-color:var(--line-2)}
+  .card h4{margin:0 0 6px;font-size:15.5px;display:flex;align-items:center;gap:8px}
+  .card p{font-size:13px;color:var(--muted);margin:0}.card p i{color:var(--ink-2);font-style:italic}
+  .card .emoji{font-size:25px;display:block;margin-bottom:8px;filter:saturate(1.1)}
+  .card.lift{background:linear-gradient(160deg,var(--surface),var(--surface-2))}
+
+  .note{border-radius:14px;padding:14px 17px;margin:18px 0;font-size:14px;display:flex;gap:13px;align-items:flex-start;border:1px solid}
+  .note .ic{font-size:18px;line-height:1.35;flex:0 0 auto}
+  .note.tip{background:var(--good-soft);border-color:var(--good-line)}.note.tip b{color:var(--good)}
+  .note.warn{background:var(--warn-soft);border-color:var(--warn-line)}.note.warn b{color:var(--warn)}
+  .note.key{background:var(--info-soft);border-color:var(--info-line)}.note.key b{color:var(--info)}
+
+  /* flow diagram */
+  .flow{display:flex;align-items:stretch;gap:0;margin:20px 0;flex-wrap:wrap}
+  .flow .fstep{flex:1;min-width:130px;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px;text-align:center;box-shadow:var(--shadow-sm);position:relative}
+  .flow .fstep .fi{font-size:24px;display:block;margin-bottom:6px}
+  .flow .fstep b{font-size:13.5px;display:block;margin-bottom:3px}
+  .flow .fstep span{font-size:11.5px;color:var(--muted);line-height:1.4;display:block}
+  .flow .arr{display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:20px;font-weight:700;padding:0 4px;flex:0 0 auto}
+
+  /* comparison table */
+  .ctable{width:100%;border-collapse:separate;border-spacing:0;margin:18px 0;font-size:13.5px;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm);background:var(--surface)}
+  .ctable th,.ctable td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+  .ctable thead th{background:var(--surface-2);font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);font-weight:800}
+  .ctable tbody tr:last-child td{border-bottom:none}
+  .ctable tbody td:first-child{font-weight:700;color:var(--ink)}
+  .ctable .by{font-size:11px;color:var(--faint);font-weight:600;display:block}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--accent-soft);color:var(--accent-dark)}
+  .tag.g{background:var(--good-soft);color:var(--good)}.tag.v{background:var(--violet-soft);color:var(--violet)}.tag.t{background:var(--teal-soft);color:var(--teal)}
+
+  /* technique cards */
+  .tech{background:var(--surface);border:1px solid var(--line);border-radius:15px;padding:18px;margin:13px 0;box-shadow:var(--shadow-sm)}
+  .tech .th{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .tech .tn{width:26px;height:26px;border-radius:8px;background:var(--violet-soft);color:var(--violet);display:grid;place-items:center;font-weight:800;font-size:13px;flex:0 0 auto}
+  .tech h4{margin:0;font-size:16px}
+  .tech .lvl{margin-left:auto;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:3px 9px;border-radius:99px;background:var(--surface-2);color:var(--muted)}
+  .tech p{margin:0 0 10px;font-size:13.5px;color:var(--ink-2)}
+  .tech .ex{background:var(--surface-2);border-radius:10px;padding:11px 13px;font-family:var(--mono);font-size:12.5px;color:var(--ink-2);line-height:1.55;border:1px solid var(--line)}
+  .tech .ex .hl{background:var(--accent-soft);color:var(--accent-dark);border-radius:4px;padding:0 4px;font-weight:600}
+
+  /* capability matrix */
+  .matrix{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin:18px 0}
+  .mx{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:14px;box-shadow:var(--shadow-sm)}
+  .mx .mi{font-size:22px;flex:0 0 auto}
+  .mx b{font-size:14.5px}.mx p{margin:2px 0 0;font-size:12.5px;color:var(--muted)}
+  .mx .ex{margin-top:6px;font-size:12px;color:var(--accent-dark);font-style:italic;display:block}
+
+  .prompt{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:13px 0;box-shadow:var(--shadow-sm)}
+  .prompt .ph{padding:9px 15px;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line)}
+  .prompt.bad .ph{background:color-mix(in srgb,#e9806a 16%,var(--surface));color:#b5482e}
+  .prompt.good .ph{background:var(--good-soft);color:var(--good)}
+  .prompt .pb{padding:14px;font-family:var(--mono);font-size:13px;line-height:1.65;white-space:pre-wrap;color:var(--ink-2)}
+  .prompt .pb .hl{background:var(--accent-soft);border-radius:5px;padding:1px 5px;color:var(--accent-dark);font-weight:600}
+  .vs{text-align:center;font-family:var(--serif);font-size:12.5px;color:var(--faint);margin:-3px 0;font-style:italic}
+
+  .builder{background:linear-gradient(160deg,var(--surface),var(--surface-2));border:1px solid var(--line-2);border-radius:var(--radius);padding:22px;margin:20px 0;box-shadow:var(--shadow)}
+  .builder .ingredients{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+  .ing label{display:flex;align-items:center;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+  .ing label .dot{width:10px;height:10px;border-radius:3px;margin-right:7px}
+  .ing input{width:100%;border:1px solid var(--line-2);border-radius:10px;padding:10px 12px;font-family:inherit;font-size:14px;background:var(--surface);color:var(--ink);transition:.15s}
+  .ing input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+  .ing input::placeholder{color:var(--faint)}
+  .builder .out{background:linear-gradient(150deg,#2a2620,#1e1b16);color:#ece6da;border-radius:13px;padding:18px;font-size:14px;line-height:1.65;min-height:62px;font-family:var(--mono)}
+  .builder .out .empty{color:#8a8375;font-style:italic}
+  .builder .out b{color:#fff;background:rgba(217,119,87,.22);padding:1px 5px;border-radius:4px}
+  .builder .tools{margin-top:13px;display:flex;gap:8px;flex-wrap:wrap}
+
+  .activity{position:relative;overflow:hidden;border-radius:var(--radius);padding:23px 25px;margin:24px 0;box-shadow:var(--shadow);background:linear-gradient(150deg,#2a2620,#1f1c16);color:#f3efe6}
+  .activity::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,var(--accent-glow),transparent 70%)}
+  .activity .head{display:flex;align-items:center;gap:11px;margin-bottom:10px;position:relative}
+  .activity .badge{background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:5px 11px;border-radius:99px}
+  .activity h4{margin:0;font-family:var(--serif);font-size:21px;font-weight:600;color:#fff}
+  .activity p{color:#cdc7bb;position:relative}
+  .activity ol{margin:9px 0 0;padding-left:22px;position:relative}.activity li{margin-bottom:7px;color:#e7e1d5}.activity li b{color:#fff}
+  .activity .mins{margin-left:auto;font-size:12.5px;color:#b8b1a3;font-weight:700;background:rgba(255,255,255,.08);padding:4px 11px;border-radius:99px}
+
+  .checklist{list-style:none;padding:0;margin:18px 0}
+  .checklist li{display:flex;gap:13px;align-items:flex-start;padding:11px 15px;background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:8px;cursor:pointer;transition:.16s}
+  .checklist li:hover{border-color:var(--line-2);transform:translateX(2px)}
+  .checklist li.done{background:var(--good-soft);border-color:var(--good-line)}
+  .checklist .box{flex:0 0 22px;width:22px;height:22px;border:2px solid var(--line-2);border-radius:7px;display:grid;place-items:center;margin-top:1px;font-size:13px;color:#fff;transition:.16s}
+  .checklist li.done .box{background:var(--good);border-color:var(--good)}
+  .checklist li.done .txt > span{text-decoration:line-through;color:var(--muted)}
+  .checklist .txt{font-size:14.5px}.checklist .txt small{display:block;color:var(--muted);font-size:12.5px}
+
+  details.inote{border:1px dashed var(--line-2);border-radius:13px;margin:18px 0;background:color-mix(in srgb,var(--surface-2) 60%,transparent);overflow:hidden}
+  details.inote > summary{cursor:pointer;list-style:none;padding:12px 16px;font-size:12.5px;font-weight:800;color:var(--accent-dark);display:flex;align-items:center;gap:9px;letter-spacing:.02em;text-transform:uppercase}
+  details.inote > summary::-webkit-details-marker{display:none}
+  details.inote > summary .chev{transition:.2s;font-size:10px}details.inote[open] > summary .chev{transform:rotate(90deg)}
+  details.inote .body{padding:0 16px 14px;font-size:13.5px;color:var(--ink-2)}
+  details.inote .body ul{margin:6px 0;padding-left:20px}details.inote .body li{margin-bottom:5px}
+
+  .faq{border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:16px 0;background:var(--surface);box-shadow:var(--shadow-sm)}
+  .faq details{border-bottom:1px solid var(--line)}.faq details:last-child{border-bottom:none}
+  .faq summary{cursor:pointer;list-style:none;padding:14px 18px;font-weight:600;font-size:14.5px;display:flex;justify-content:space-between;gap:12px;align-items:center;transition:.15s}
+  .faq summary:hover{background:var(--surface-2)}.faq summary::-webkit-details-marker{display:none}
+  .faq summary .q{display:flex;align-items:center;gap:10px}.faq summary .q .qm{color:var(--accent-dark);font-weight:800}
+  .faq summary:after{content:"+";color:var(--accent-dark);font-weight:700;font-size:21px;line-height:1;transition:.2s}
+  .faq details[open] summary:after{content:"–";transform:rotate(180deg)}
+  .faq .ans{padding:0 18px 15px 40px;color:var(--muted);font-size:14px}
+
+  .cheat{background:linear-gradient(160deg,#fffdf8,var(--surface-2));border:2px dashed var(--line-2);border-radius:var(--radius);padding:26px;margin:18px 0;box-shadow:var(--shadow)}
+  [data-theme="dark"] .cheat{background:linear-gradient(160deg,var(--surface),var(--surface-2))}
+  .cheat .ch-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  .cheat .ch-h h3{font-family:var(--serif);font-size:23px;margin:0;font-weight:600}
+  .cheat .ch-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .cheat .ch-col h5{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-dark);font-weight:800;margin:0 0 8px;display:flex;align-items:center;gap:7px}
+  .cheat ul{margin:0 0 16px;padding-left:0;list-style:none}
+  .cheat ul li{padding:5px 0 5px 24px;position:relative;font-size:13.5px;border-bottom:1px solid var(--line)}
+  .cheat ul li:last-child{border-bottom:none}
+  .cheat ul li:before{content:"→";position:absolute;left:0;color:var(--accent);font-weight:700}
+  .cheat code{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-family:var(--mono);font-size:12px;color:var(--accent-dark)}
+
+  .roadmap{margin:18px 0}
+  .day{display:flex;gap:14px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--line)}
+  .day:last-child{border-bottom:none}
+  .day .dn{flex:0 0 auto;width:46px;height:46px;border-radius:12px;background:var(--accent-soft);color:var(--accent-dark);display:grid;place-items:center;font-weight:800;font-size:12px;text-align:center;line-height:1.1}
+  .day b{font-size:15px}.day p{margin:2px 0 0;font-size:13.5px;color:var(--muted)}
+
+  .hour-divider{display:flex;align-items:center;gap:16px;margin:38px 0 -6px}
+  .hour-divider .ln{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--line-2),transparent)}
+  .hour-divider .lbl{font-family:var(--serif);font-size:13.5px;color:var(--accent-dark);letter-spacing:.04em;font-weight:600;padding:6px 16px;background:var(--accent-soft);border-radius:99px;border:1px solid color-mix(in srgb,var(--accent) 22%,transparent)}
+
+  footer{padding:48px 0 0;color:var(--muted);font-size:14px}
+  footer .big{font-family:var(--serif);font-size:27px;color:var(--ink);margin-bottom:10px;font-weight:600}
+  footer .fr{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+  body.presenting .sidebar,body.presenting .hour-divider{display:none}
+  body.presenting section.mod{display:none;min-height:calc(100vh - 64px);border:none;padding:46px 0;animation:fade .35s}
+  body.presenting section.mod.show{display:block}
+  body.presenting .wrap{max-width:1040px}
+  body.presenting section.mod h2.mod-title{font-size:40px}
+  body.presenting .hero{display:none}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .presenter-nav{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:60;display:none;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line-2);border-radius:99px;padding:8px 10px;box-shadow:var(--shadow-lg)}
+  body.presenting .presenter-nav{display:flex}
+  .presenter-nav .pos{font-size:13px;font-weight:700;color:var(--muted);min-width:64px;text-align:center;font-variant-numeric:tabular-nums}
+
+  @media (max-width:1080px){
+    .sidebar{display:none}h1.title{font-size:38px}
+    .grid.two,.grid.three,.grid.four,.builder .ingredients,.cheat .ch-grid,.syllabus,.matrix{grid-template-columns:1fr}
+    .stats{flex-wrap:wrap}.stats .s{flex:1 1 40%}
+    .flow{flex-direction:column}.flow .arr{transform:rotate(90deg);padding:4px 0}
+    .ctable{display:block;overflow-x:auto;white-space:nowrap}
+  }
+  @media print{.sidebar,.topbar,.btn,.presenter-nav,details.inote{display:none!important}body{font-size:11px}section.mod{break-inside:avoid;border:none}body::before{display:none}}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="sb-title">Cohort Progress</div>
+    <div class="sb-progress">
+      <div class="ring-row">
+        <div class="ring">
+          <svg width="44" height="44" viewBox="0 0 44 44">
+            <circle cx="22" cy="22" r="18" fill="none" stroke="var(--line)" stroke-width="5"/>
+            <circle id="ringfill" cx="22" cy="22" r="18" fill="none" stroke="var(--accent)" stroke-width="5" stroke-linecap="round" stroke-dasharray="113" stroke-dashoffset="113"/>
+          </svg>
+          <div class="pct" id="ringpct">0%</div>
+        </div>
+        <div class="lbl"><b id="progtxt">Module 0 of 11</b><span>Scroll to advance</span></div>
+      </div>
+    </div>
+
+    <div class="sb-title">Curriculum · 2 Hours</div>
+    <nav class="toc" id="toc">
+      <a href="#welcome"><span class="t">·</span><span class="nm">Orientation</span></a>
+      <div class="part">Foundations</div>
+      <a href="#m1"><span class="t">1</span><span class="nm">How AI actually works</span></a>
+      <a href="#m2"><span class="t">2</span><span class="nm">The landscape &amp; tools</span></a>
+      <div class="part">The Core Skill</div>
+      <a href="#m3"><span class="t">3</span><span class="nm">Prompting mastery</span></a>
+      <a href="#m4"><span class="t">4</span><span class="nm">Prompt patterns library</span></a>
+      <div class="part">Power &amp; Practice</div>
+      <a href="#m5"><span class="t">5</span><span class="nm">Power features</span></a>
+      <a href="#m6"><span class="t">6</span><span class="nm">Real-world workflows</span></a>
+      <a href="#m7"><span class="t">7</span><span class="nm">Build it (hands-on)</span></a>
+      <div class="part">Frontier &amp; Trust</div>
+      <a href="#m8"><span class="t">8</span><span class="nm">Agents &amp; automation</span></a>
+      <a href="#m9"><span class="t">9</span><span class="nm">Safety, ethics &amp; truth</span></a>
+      <a href="#m10"><span class="t">10</span><span class="nm">Your 7-day roadmap</span></a>
+      <div class="part">Reference</div>
+      <a href="#cheat"><span class="t">📋</span><span class="nm">Master cheat sheet</span></a>
+      <a href="#glossary"><span class="t">★</span><span class="nm">Glossary &amp; FAQ</span></a>
+    </nav>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+    <div class="topbar">
+      <div class="brand"><span class="logo">✦</span><span>The AI Intensive · <b>2-Hour Cohort</b></span></div>
+      <span class="spacer"></span>
+      <button class="btn icon" id="themeBtn" title="Dark mode">🌙</button>
+      <button class="btn" id="presentBtn" title="Focus mode">▣ Focus</button>
+      <div class="timer">
+        <div><div class="clock" id="clock">0:00:00</div><div class="sub" id="phase">Timer off</div></div>
+        <button class="btn primary tiny" id="startBtn">▶ Start</button>
+        <button class="btn tiny" id="resetBtn">↺</button>
+      </div>
+    </div>
+
+    <div class="wrap">
+
+      <!-- ===================== HERO ===================== -->
+      <header class="hero">
+        <span class="kicker"><span class="dot"></span> Beginner → Capable · No experience needed</span>
+        <h1 class="title">Everything you need to know about AI —<br><span class="em">in one 2-hour intensive.</span></h1>
+        <p class="lede">A complete, fast-paced cohort that takes you from <b>“I’ve never used it”</b> to <b>genuinely capable</b>. You’ll understand how AI really works, learn the tools, master prompting, unlock the power features, and walk away with workflows you’ll use every day. <b>Designed like a top-tier tech onboarding — dense, clear, and practical.</b></p>
+
+        <div class="stats">
+          <div class="s"><b>2 hrs</b><span>Total time</span></div>
+          <div class="s"><b>11</b><span>Modules</span></div>
+          <div class="s"><b>0</b><span>Prerequisites</span></div>
+          <div class="s"><b>20+</b><span>Ready prompts</span></div>
+        </div>
+
+        <div class="cta">
+          <a class="btn primary" href="#m1">▶ Begin Module 1</a>
+          <a class="btn" href="#welcome">How this works</a>
+        </div>
+
+        <h3 class="sub">The full curriculum at a glance</h3>
+        <div class="syllabus">
+          <a class="syl" href="#m1"><span class="pn">1</span><div><h4>How AI actually works</h4><p>The honest, jargon-free mental model</p></div><span class="mn">12m</span></a>
+          <a class="syl" href="#m2"><span class="pn">2</span><div><h4>Landscape &amp; tools</h4><p>ChatGPT, Claude, Gemini &amp; more — what to pick</p></div><span class="mn">10m</span></a>
+          <a class="syl" href="#m3"><span class="pn">3</span><div><h4>Prompting mastery</h4><p>The one skill that changes everything</p></div><span class="mn">18m</span></a>
+          <a class="syl" href="#m4"><span class="pn">4</span><div><h4>Prompt patterns</h4><p>A reusable library of proven techniques</p></div><span class="mn">12m</span></a>
+          <a class="syl" href="#m5"><span class="pn">5</span><div><h4>Power features</h4><p>Files, vision, voice, web, memory, projects</p></div><span class="mn">15m</span></a>
+          <a class="syl" href="#m6"><span class="pn">6</span><div><h4>Real workflows</h4><p>Work, study, life &amp; creativity</p></div><span class="mn">15m</span></a>
+          <a class="syl" href="#m7"><span class="pn">7</span><div><h4>Build it</h4><p>Your hands-on capstone</p></div><span class="mn">12m</span></a>
+          <a class="syl" href="#m8"><span class="pn">8</span><div><h4>Agents &amp; automation</h4><p>Where AI is heading — and how to ride it</p></div><span class="mn">8m</span></a>
+          <a class="syl" href="#m9"><span class="pn">9</span><div><h4>Safety &amp; ethics</h4><p>Truth, privacy, bias, responsible use</p></div><span class="mn">10m</span></a>
+          <a class="syl" href="#m10"><span class="pn">10</span><div><h4>Your roadmap</h4><p>A 7-day plan to make it stick</p></div><span class="mn">8m</span></a>
+        </div>
+      </header>
+
+      <!-- ===================== ORIENTATION ===================== -->
+      <section class="mod" id="welcome">
+        <div class="mod-head">
+          <div class="mod-num alt">★</div>
+          <div class="mod-meta">
+            <div class="mod-time"><span class="chip">Orientation</span> 4 minutes</div>
+            <h2 class="mod-title">Welcome to the cohort</h2>
+          </div>
+        </div>
+        <p class="lead">This isn’t a passive video course. It’s an <b>intensive</b> — you read, you try, you build. Move fast, keep your AI tool open beside this page, and don’t worry about memorizing everything: the cheat sheet at the end captures it all.</p>
+
+        <div class="grid three">
+          <div class="card"><span class="emoji">🎯</span><h4>What you’ll get</h4><p>A real working understanding of AI plus daily-use skills — not just theory.</p></div>
+          <div class="card"><span class="emoji">⚡</span><h4>How to pace it</h4><p>~2 hours straight, or split into chunks. The timer keeps you on track.</p></div>
+          <div class="card"><span class="emoji">🛠️</span><h4>What to have ready</h4><p>One AI tool open in another tab (Claude, ChatGPT, or Gemini) + this page.</p></div>
+        </div>
+
+        <div class="note key"><span class="ic">✅</span><div><b>The cohort promise:</b> by the final module you’ll understand the technology, navigate any AI tool, write expert-level prompts, use the advanced features, and have a concrete plan to keep improving. Let’s go. 🚀</div></div>
+      </section>
+
+      <div class="hour-divider"><span class="ln"></span><span class="lbl">Part 1 — Foundations</span><span class="ln"></span></div>
+
+      <!-- ===================== MODULE 1 ===================== -->
+      <section class="mod" id="m1">
+        <div class="mod-head">
+          <div class="mod-num">1</div>
+          <div class="mod-meta">
+            <div class="mod-time"><span class="chip">Module 1</span> ~12 min · Foundations</div>
+            <h2 class="mod-title">How AI actually works</h2>
+          </div>
+        </div>
+        <div class="objective"><span class="ic">◆</span><div><b>Outcome:</b> a clear, honest mental model of modern AI — enough to understand <i>why</i> it’s brilliant, <i>why</i> it sometimes fails, and how to get the best from it. No math required.</div></div>
+
+        <p class="lead">Today’s AI assistants are powered by <b>Large Language Models (LLMs)</b>. The simplest accurate description: they are <b>extraordinarily sophisticated prediction engines</b> trained to continue text in the most plausible, helpful way.</p>
+
+        <h3 class="sub">What happens when you hit send</h3>
+        <div class="flow">
+          <div class="fstep"><span class="fi">⌨️</span><b>You type</b><span>Your message (the “prompt”) in plain language</span></div>
+          <div class="arr">→</div>
+          <div class="fstep"><span class="fi">🧩</span><b>Tokens</b><span>Your text is split into small chunks it can process</span></div>
+          <div class="arr">→</div>
+          <div class="fstep"><span class="fi">🔮</span><b>Prediction</b><span>It predicts the best next word, again and again</span></div>
+          <div class="arr">→</div>
+          <div class="fstep"><span class="fi">💬</span><b>Answer</b><span>Those predictions assemble into a fluent reply</span></div>
+        </div>
+
+        <h3 class="sub">The 6 ideas that explain almost everything</h3>
+        <div class="grid two">
+          <div class="card"><h4>📚 Trained, not programmed</h4><p>It learned patterns from a vast amount of text — books, articles, the web. Nobody hand-wrote its answers.</p></div>
+          <div class="card"><h4>🔮 It predicts, it doesn’t “look up”</h4><p>It composes responses word by word. That’s why it writes so naturally — and why facts need checking.</p></div>
+          <div class="card"><h4>🧠 The context window = short-term memory</h4><p>It only “knows” what’s in the current conversation. New chat = clean slate (unless memory is on).</p></div>
+          <div class="card"><h4>📅 Knowledge cutoff</h4><p>Its built-in knowledge stops at its training date. For fresh info it needs a web-search tool.</p></div>
+          <div class="card"><h4>🎲 A little randomness</h4><p>Ask twice, get two different phrasings. That’s normal and intentional — it’s generating, not retrieving.</p></div>
+          <div class="card"><h4>⚠️ Confident ≠ correct</h4><p>It can state a wrong fact as smoothly as a right one. This is the “hallucination” — your cue to verify.</p></div>
+        </div>
+
+        <div class="note key"><span class="ic">💡</span><div><b>The unlock:</b> once you see it as a <i>pattern-completing assistant</i> rather than a magic oracle, everything clicks. Give it rich patterns to complete (clear context, examples, structure) and it shines. Ask it to recall exact obscure facts unaided and it may stumble.</div></div>
+
+        <details class="inote">
+          <summary><span class="chev">▶</span> Going slightly deeper (optional)</summary>
+          <div class="body">
+            <ul>
+              <li><b>Training vs using:</b> “training” is the months-long, expensive process of learning patterns. “Inference” is the instant moment it answers you. You only ever touch inference.</li>
+              <li><b>Parameters:</b> the model’s billions of internal “dials” tuned during training. More (and better-tuned) generally means more capable.</li>
+              <li><b>Why bigger context matters:</b> a larger context window means it can hold a whole book, long document, or long chat “in mind” at once.</li>
+              <li><b>Multimodal models:</b> newer models handle not just text but images, audio, and more — same prediction idea, more senses.</li>
+            </ul>
+          </div>
+        </details>
+      </section>
+
+      <!-- ===================== MODULE 2 ===================== -->
+      <section class="mod" id="m2">
+        <div class="mod-head">
+          <div class="mod-num">2</div>
+          <div class="mod-meta">
+            <div class="mod-time"><span class="chip">Module 2</span> ~10 min · Foundations</div>
+            <h2 class="mod-title">The landscape &amp; which tool to use</h2>
+          </div>
+        </div>
+        <div class="objective"><span class="ic">◆</span><div><b>Outcome:</b> know the major AI assistants, how they differ, free vs paid, and a simple rule for choosing — so you’re never lost in the marketing.</div></div>
+
+        <h3 class="sub">The major assistants (2026)</h3>
+        <table class="ctable">
+          <thead><tr><th>Assistant</th><th>Best known for</th><th>Free?</th></tr></thead>
+          <tbody>
+            <tr><td>Claude <span class="by">Anthropic</span></td><td>Thoughtful writing, reasoning, long documents, coding, a safety-first feel</td><td><span class="tag g">Yes</span></td></tr>
+            <tr><td>ChatGPT <span class="by">OpenAI</span></td><td>The all-rounder; huge feature set, images, voice, custom GPTs</td><td><span class="tag g">Yes</span></td></tr>
+            <tr><td>Gemini <span class="by">Google</span></td><td>Deep Google integration (Search, Docs, Gmail), strong multimodal</td><td><span class="tag g">Yes</span></td></tr>
+            <tr><td>Copilot <span class="by">Microsoft</span></td><td>Built into Windows &amp; Microsoft Office (Word, Excel, Outlook)</td><td><span class="tag g">Yes</span></td></tr>
+            <tr><td>Llama <span class="by">Meta</span></td><td>Open model others build on; powers many apps behind the scenes</td><td><span class="tag t">Open</span></td></tr>
+          </tbody>
+        </table>
+
+        <h3 class="sub">Free vs paid — what you actually get</h3>
+        <div class="grid two">
+          <div class="card lift"><h4>🆓 Free tiers</h4><p>Plenty powerful for learning and most daily tasks. Some limits on usage, speed, and access to the very newest models.</p></div>
+          <div class="card lift"><h4>💎 Paid (~$20/mo)</h4><p>Smartest models, higher limits, faster responses, and the advanced features (deeper file analysis, image generation, projects, etc.).</p></div>
+        </div>
+
+        <div class="note tip"><span class="ic">🎯</span><div><b>How to choose — the simple rule:</b> pick <b>one</b> and get fluent. The skills transfer everywhere. Prefer careful writing &amp; reasoning → <b>Claude</b>. Want the biggest toolbox → <b>ChatGPT</b>. Live inside Google → <b>Gemini</b>. Live inside Microsoft Office → <b>Copilot</b>. You can always switch later.</div></div>
+
+        <h3 class="sub">A word on “models”</h3>
+        <p>Each assistant offers several <b>models</b> — think of them as engine options. Newer/“smarter” models reason better and make fewer mistakes but may be slower or limited on free plans. You’ll often see a small model picker; when in doubt, use the <b>default</b> or the one labelled most capable for hard tasks, and a faster one for quick stuff.</p>
+
+        <details class="inote">
+          <summary><span class="chev">▶</span> Beyond chat — the wider AI world (good to know)</summary>
+          <div class="body">
+            <ul>
+              <li><b>Image generators:</b> Midjourney, DALL·E, Google Imagen, Adobe Firefly — create pictures from text.</li>
+              <li><b>Video &amp; audio:</b> tools that generate video, music, and realistic voices (e.g. Sora, ElevenLabs).</li>
+              <li><b>Specialized assistants:</b> Perplexity (AI search with sources), GitHub Copilot (coding), Notion AI (notes), and many niche apps.</li>
+              <li>Most of these are powered by the same kind of models you’re learning here — so your skills carry over.</li>
+            </ul>
+          </div>
+        </details>
+      </section>
+
+      <div class="hour-divider"><span class="ln"></span><span class="lbl">Part 2 — The core skill</span><span class="ln"></span></div>
+
+      <!-- ===================== MODULE 3 ===================== -->
+      <section class="mod" id="m3">
+        <div class="mod-head">
+          <div class="mod-num v">3</div>
+          <div class="mod-meta">
+            <div class="mod-time"><span class="chip">Module 3</span> ~18 min · Core skill</div>
+            <h2 class="mod-title">Prompting mastery</h2>
+          </div>
+        </div>
+        <div class="objective"><span class="ic">◆</span><div><b>Outcome:</b> the single highest-leverage skill in AI. You’ll learn the recipe, see the dramatic difference detail makes, and build prompts that get expert-level answers on the first or second try.</div></div>
+
+        <p class="lead">A <b>prompt</b> is just your message. But how you ask determines what you get. The gap between a beginner and a power user isn’t the tool — it’s the prompt.</p>
+
+        <div class="prompt bad"><div class="ph">🙁 Vague → generic, useless</div><div class="pb">write a business plan</div></div>
+        <div class="vs">— add the 4 ingredients —</div>
+        <div class="prompt good"><div class="ph">😍 Specific → sharp, tailored</div><div class="pb">Act as a <span class="hl">startup advisor</span>. Write a <span class="hl">one-page business plan</span> for a <span class="hl">small home bakery in Mumbai targeting office workers</span>. Include sections for <span class="hl">offering, customers, pricing, marketing, and first-month costs</span>. Keep it practical and under 400 words.</div></div>
+
+        <h3 class="sub">The recipe: R-T-C-F</h3>
+        <div class="grid four">
+          <div class="card"><h4>🎭 Role</h4><p>Who it should be. <i>“Act as a nutritionist…”</i></p></div>
+          <div class="card"><h4>✅ Task</h4><p>What to do. <i>“…build a meal plan.”</i></p></div>
+          <div class="card"><h4>📋 Context</h4><p>The details. <i>“Vegetarian, 1800 cal, no nuts.”</i></p></div>
+          <div class="card"><h4>🎨 Format</h4><p>How to present. <i>“A 7-day table.”</i></p></div>
+        </div>
+
+        <h3 class="sub">Build one live 👇</h3>
+        <div class="builder">
+          <div class="ingredients">
+            <div class="ing"><label><span class="dot" style="background:#d97757"></span>🎭 Role</label><input id="b_role" placeholder="a patient maths tutor"></div>
+            <div class="ing"><label><span class="dot" style="background:#4d7c4d"></span>✅ Task</label><input id="b_task" placeholder="explain percentages"></div>
+            <div class="ing"><label><span class="dot" style="background:#3f5478"></span>📋 Context</label><input id="b_ctx" placeholder="for an adult who finds maths scary"></div>
+            <div class="ing"><label><span class="dot" style="background:#b07d23"></span>🎨 Format</label><input id="b_fmt" placeholder="3 real-life examples, simple words"></div>
+          </div>
+          <div class="out" id="b_out"><span class="empty">Your prompt will appear here as you type…</span></div>
+          <div class="tools">
+            <button class="btn tiny" onclick="fillExample()">✨ Example</button>
+            <button class="btn tiny" id="copyBtn" onclick="copyPrompt()">⧉ Copy</button>
+            <button class="btn tiny" onclick="clearBuilder()">✕ Clear</button>
+          </div>
+        </div>
+
+        <h3 class="sub">The 5 habits of expert prompters</h3>
+        <div class="matrix">
+          <div class="mx"><span class="mi">🔁</span><div><b>Iterate, don’t restart</b><p>Refine with follow-ups instead of rewriting from scratch.</p><span class="ex">“Make it shorter and more formal.”</span></div></div>
+          <div class="mx"><span class="mi">❓</span><div><b>Let it ask you</b><p>Have it interview you before answering big tasks.</p><span class="ex">“Ask me 3 questions first, then begin.”</span></div></div>
+          <div class="mx"><span class="mi">🪜</span><div><b>Request reasoning</b><p>For tricky problems, ask it to think step by step.</p><span class="ex">“Think it through step by step.”</span></div></div>
+          <div class="mx"><span class="mi">🧾</span><div><b>Give it source material</b><p>Paste the text/data so it works from facts, not memory.</p><span class="ex">“Using only the text below, …”</span></div></div>
+        </div>
+
+        <div class="note tip"><span class="ic">🧠</span><div><b>Golden mindset:</b> treat AI like a brilliant new teammate on day one — capable but lacking context. The more you tell it (who, what, why, for whom, in what style), the better it performs. <b>Detailed in → excellent out.</b></div></div>
+      </section>
+
+      <!-- ===================== MODULE 4 ===================== -->
+      <section class="mod" id="m4">
+        <div class="mod-head">
+          <div class="mod-num v">4</div>
+          <div class="mod-meta">
+            <div class="mod-time"><span class="chip">Module 4</span> ~12 min · Core skill</div>
+            <h2 class="mod-title">The prompt patterns library</h2>
+          </div>
+        </div>
+        <div class="objective"><span class="ic">◆</span><div><b>Outcome:</b> a toolbox of proven techniques you can reach for by name. Steal these — they work in any AI tool.</div></div>
+
+        <div class="tech">
+          <div class="th"><span class="tn">1</span><h4>Role / Persona</h4><span class="lvl">Essential</span></div>
+          <p>Tell it who to be. This shifts vocabulary, depth, and tone instantly.</p>
+          <div class="ex">“Act as an <span class="hl">experienced travel agent</span>. Plan a budget 5-day Japan trip for a first-timer.”</div>
+        </div>
+        <div class="tech">
+          <div class="th"><span class="tn">2</span><h4>Few-shot (show examples)</h4><span class="lvl">High impact</span></div>
+          <p>Give 1–3 examples of what “good” looks like, then ask for more in the same style.</p>
+          <div class="ex">“Here are two of my product taglines: ‘…’, ‘…’. <span class="hl">Write 5 more in the same punchy style.</span>”</div>
+        </div>
+        <div class="tech">
+          <div class="th"><span class="tn">3</span><h4>Chain-of-thought (step by step)</h4><span class="lvl">For hard tasks</span></div>
+          <p>Ask it to reason before answering. Cuts mistakes on logic, math, and planning.</p>
+          <div class="ex">“A train problem… <span class="hl">Work through it step by step, then give the final answer.</span>”</div>
+        </div>
+        <div class="tech">
+          <div class="th"><span class="tn">4</span><h4>Interview-me first</h4><span class="lvl">Power move</span></div>
+          <p>Flip it around so it gathers your context before producing anything.</p>
+          <div class="ex">“I want to write a wedding speech. <span class="hl">Ask me questions one at a time</span>, then write it.”</div>
+        </div>
+        <div class="tech">
+          <div class="th"><span class="tn">5</span><h4>Reference text / grounding</h4><span class="lvl">Reduces errors</span></div>
+          <p>Paste the document, email, or data and restrict it to that source.</p>
+          <div class="ex">“<span class="hl">Using only the report below</span>, list the 3 key risks. [paste]”</div>
+        </div>
+        <div class="tech">
+          <div class="th"><span class="tn">6</span><h4>Format &amp; constraints</h4><span class="lvl">Everyday</span></div>
+          <p>Specify length, structure, and what to avoid.</p>
+          <div class="ex">“In <span class="hl">a markdown table</span>, max <span class="hl">5 rows</span>, no jargon, plain English.”</div>
+        </div>
+        <div class="tech">
+          <div class="th"><span class="tn">7</span><h4>Critique &amp; improve</h4><span class="lvl">Quality boost</span></div>
+          <p>Make it review its own work — or yours.</p>
+          <div class="ex">“<span class="hl">Critique this draft for clarity and tone, then rewrite the weakest parts.</span>”</div>
+        </div>
+
+        <div class="note warn"><span class="ic">🚫</span><div><b>Common mistakes to avoid:</b> being too vague · asking five things in one messy sentence · accepting the first draft · not giving it the source material · forgetting to say the <i>format</i> you want. Fix any one and your results jump.</div></div>
+      </section>
+
+      <div class="hour-divider"><span class="ln"></span><span class="lbl">Part 3 — Power &amp; practice</span><span class="ln"></span></div>
+
+      <!-- ===================== MODULE 5 ===================== -->
+      <section class="mod" id="m5">
+        <div class="mod-head">
+          <div class="mod-num">5</div>
+          <div class="mod-meta">
+            <div class="mod-time"><span class="chip">Module 5</span> ~15 min · Power</div>
+            <h2 class="mod-title">Power features beyond chat</h2>
+          </div>
+        </div>
+        <div class="objective"><span class="ic">◆</span><div><b>Outcome:</b> know the capabilities that turn a chatbot into a real assistant — and exactly when to reach for each.</div></div>
+
+        <div class="matrix">
+          <div class="mx"><span class="mi">📎</span><div><b>File uploads</b><p>Drop in a PDF, Word doc, or spreadsheet and ask about it.</p><span class="ex">“Summarize this contract &amp; flag risks.”</span></div></div>
+          <div class="mx"><span class="mi">👁️</span><div><b>Vision (images)</b><p>Upload a photo or screenshot; it can read and analyze it.</p><span class="ex">“What does this error message mean?”</span></div></div>
+          <div class="mx"><span class="mi">🎙️</span><div><b>Voice mode</b><p>Talk to it and hear it reply — great hands-free.</p><span class="ex">“Quiz me while I cook dinner.”</span></div></div>
+          <div class="mx"><span class="mi">🌐</span><div><b>Web search</b><p>Pulls live, current info with sources you can check.</p><span class="ex">“What changed in the news this week on X?”</span></div></div>
+          <div class="mx"><span class="mi">🧠</span><div><b>Memory &amp; custom instructions</b><p>Tell it about you once; it remembers across chats.</p><span class="ex">“Always reply concisely, I’m a teacher.”</span></div></div>
+          <div class="mx"><span class="mi">🗂️</span><div><b>Projects / Custom GPTs</b><p>Save context &amp; files into a reusable workspace.</p><span class="ex">A “Job Hunt” project with your CV.</span></div></div>
+          <div class="mx"><span class="mi">🎨</span><div><b>Image generation</b><p>Create pictures, logos, and illustrations from text.</p><span class="ex">“A minimalist logo for a tea brand.”</span></div></div>
+          <div class="mx"><span class="mi">📊</span><div><b>Data analysis / canvas</b><p>It can crunch a spreadsheet or co-edit a live document.</p><span class="ex">“Chart this sales data by month.”</span></div></div>
+        </div>
+
+        <div class="note key"><span class="ic">💡</span><div><b>Mental shortcut:</b> if a task involves <i>your</i> documents, images, live facts, or repeated context — there’s probably a feature for it. Look for the <b>📎 paperclip</b>, <b>🎙️ mic</b>, <b>🌐 globe</b>, and <b>settings → personalization/memory</b> in your tool.</div></div>
+
+        <div class="activity">
+          <div class="head"><span class="badge">Try it</span><h4>Use one power feature now</h4><span class="mins">~4 min</span></div>
+          <ol>
+            <li>Upload any photo (a receipt, a sign, a menu) and ask <b>“What is this and what should I know about it?”</b></li>
+            <li>Or turn on web search and ask about something from this week.</li>
+            <li>Notice how it goes from “smart text” to “useful assistant.”</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ===================== MODULE 6 ===================== -->
+      <section class="mod" id="m6">
+        <div class="mod-head">
+          <div class="mod-num">6</div>
+          <div class="mod-meta">
+            <div class="mod-time"><span class="chip">Module 6</span> ~15 min · Power</div>
+            <h2 class="mod-title">Real-world workflows</h2>
+          </div>
+        </div>
+        <div class="objective"><span class="ic">◆</span><div><b>Outcome:</b> a menu of high-value, copy-ready ways to use AI across work, study, life, and creativity. Find the ones that fit you.</div></div>
+
+        <h3 class="sub">💼 At work</h3>
+        <div class="grid two">
+          <div class="card"><h4>✉️ Email &amp; comms</h4><p><i>“Turn these notes into a clear, friendly email. Then write a 1-line subject.”</i></p></div>
+          <div class="card"><h4>📝 Meetings &amp; notes</h4><p><i>“Summarize these meeting notes into decisions, owners, and next steps.”</i></p></div>
+          <div class="card"><h4>📊 Docs &amp; reports</h4><p><i>“Draft a project update with status, risks, and asks. Keep it to 200 words.”</i></p></div>
+          <div class="card"><h4>🔎 Research</h4><p><i>“Explain [topic] simply, then give pros, cons, and 3 sources to verify.”</i></p></div>
+        </div>
+
+        <h3 class="sub">📚 For learning</h3>
+        <div class="grid two">
+          <div class="card"><h4>🎓 Personal tutor</h4><p><i>“Teach me [topic] from scratch in 5 steps, checking I understand each one.”</i></p></div>
+          <div class="card"><h4>🧪 Active recall</h4><p><i>“Quiz me with 10 questions, one at a time, and explain my wrong answers.”</i></p></div>
+          <div class="card"><h4>📖 Summarize &amp; simplify</h4><p><i>“Summarize this chapter, then explain it like I’m 12.”</i></p></div>
+          <div class="card"><h4>🗓️ Study plans</h4><p><i>“Build a 4-week plan to learn [skill], 30 min/day, with milestones.”</i></p></div>
+        </div>
+
+        <h3 class="sub">🏠 In daily life · 🎨 For creativity</h3>
+        <div class="grid two">
+          <div class="card"><h4>🍽️ Plan &amp; organize</h4><p>Meal plans &amp; shopping lists, trip itineraries, budgets, to-do breakdowns.</p></div>
+          <div class="card"><h4>💬 Difficult writing</h4><p>Tough emails, complaints, negotiations, apologies — drafted kindly and clearly.</p></div>
+          <div class="card"><h4>✍️ Create</h4><p>Stories, poems, captions, names, scripts, brainstorms — endless first drafts.</p></div>
+          <div class="card"><h4>🧩 Decisions</h4><p><i>“Help me weigh option A vs B for my situation: …”</i></p></div>
+        </div>
+
+        <div class="note tip"><span class="ic">🚀</span><div><b>The productivity principle:</b> AI is best as a <b>first-draft and thinking partner</b>, not a final-word machine. Let it get you to 80% in seconds; you bring the judgment, accuracy, and personal touch for the last 20%.</div></div>
+      </section>
+
+      <!-- ===================== MODULE 7 ===================== -->
+      <section class="mod" id="m7">
+        <div class="mod-head">
+          <div class="mod-num">7</div>
+          <div class="mod-meta">
+            <div class="mod-time"><span class="chip">Module 7</span> ~12 min · 🙌 Capstone</div>
+            <h2 class="mod-title">Build it — your hands-on capstone</h2>
+          </div>
+        </div>
+        <div class="objective"><span class="ic">◆</span><div><b>Outcome:</b> put it all together on a real task of your own — and prove to yourself you can do this independently.</div></div>
+
+        <div class="activity">
+          <div class="head"><span class="badge">Capstone</span><h4>From idea to finished result</h4><span class="mins">~10 min</span></div>
+          <p>Pick something you genuinely need this week. Use the full toolkit: recipe + a pattern + a power feature.</p>
+          <ol>
+            <li><b>Write a strong prompt</b> with Role + Task + Context + Format.</li>
+            <li><b>Add a pattern</b> — e.g. “ask me 3 questions first,” or paste your source text.</li>
+            <li><b>Refine 2–3 times</b> until it’s genuinely good.</li>
+            <li><b>Finish &amp; save</b> — “put it in a clean format I can copy,” then store it.</li>
+          </ol>
+        </div>
+
+        <ul class="checklist" id="checklist7">
+          <li><span class="box">✓</span><span class="txt"><span>I chose a real task from my own life</span></span></li>
+          <li><span class="box">✓</span><span class="txt"><span>I used the R-T-C-F recipe</span></span></li>
+          <li><span class="box">✓</span><span class="txt"><span>I applied at least one prompt pattern</span><small>Role, few-shot, interview-me, or reference text.</small></span></li>
+          <li><span class="box">✓</span><span class="txt"><span>I refined it and saved a result I’d actually use 🎉</span></span></li>
+        </ul>
+
+        <details class="inote">
+          <summary><span class="chev">▶</span> Stretch goals if you’re flying</summary>
+          <div class="body">
+            <ul>
+              <li><b>Create a reusable workspace:</b> set up a Project / Custom GPT with your context saved.</li>
+              <li><b>Set custom instructions:</b> tell it your role and preferred style once, for every future chat.</li>
+              <li><b>Chain features:</b> upload a doc → summarize → turn the summary into a slide outline → into an email.</li>
+            </ul>
+          </div>
+        </details>
+      </section>
+
+      <div class="hour-divider"><span class="ln"></span><span class="lbl">Part 4 — Frontier &amp; trust</span><span class="ln"></span></div>
+
+      <!-- ===================== MODULE 8 ===================== -->
+      <section class="mod" id="m8">
+        <div class="mod-head">
+          <div class="mod-num v">8</div>
+          <div class="mod-meta">
+            <div class="mod-time"><span class="chip">Module 8</span> ~8 min · Frontier</div>
+            <h2 class="mod-title">Agents &amp; automation — where it’s heading</h2>
+          </div>
+        </div>
+        <div class="objective"><span class="ic">◆</span><div><b>Outcome:</b> understand the next wave — AI that doesn’t just answer, but <i>acts</i> — so you’re ready instead of surprised.</div></div>
+
+        <p class="lead">So far you’ve used AI as a <b>conversation</b>. The frontier is AI as an <b>agent</b>: give it a goal, and it plans, uses tools, and completes multi-step tasks largely on its own.</p>
+
+        <div class="grid three">
+          <div class="card"><span class="emoji">🤖</span><h4>AI agents</h4><p>Give a goal (“research these 5 cities and build a comparison”) and it carries out the steps itself.</p></div>
+          <div class="card"><span class="emoji">🔌</span><h4>Tools &amp; connectors</h4><p>AI that can browse, run code, query data, or connect to your apps (calendar, email, docs).</p></div>
+          <div class="card"><span class="emoji">⚙️</span><h4>Automation</h4><p>Wiring AI into workflows so routine tasks happen automatically, not manually.</p></div>
+        </div>
+
+        <div class="grid two">
+          <div class="card lift"><h4>🧱 “Building” without being a coder</h4><p>You can now describe an app or tool in plain English and have AI help create it. Non-coders are shipping real things.</p></div>
+          <div class="card lift"><h4>🔭 What to watch</h4><p>More autonomy, longer memory, better reliability, and AI woven into the apps you already use every day.</p></div>
+        </div>
+
+        <div class="note warn"><span class="ic">⚖️</span><div><b>Stay grounded:</b> agents are powerful but still imperfect — they can take wrong steps confidently. The more autonomy you give, the more you should <b>review what they do</b>, especially for anything that costs money, sends messages, or changes files.</div></div>
+      </section>
+
+      <!-- ===================== MODULE 9 ===================== -->
+      <section class="mod" id="m9">
+        <div class="mod-head">
+          <div class="mod-num">9</div>
+          <div class="mod-meta">
+            <div class="mod-time"><span class="chip">Module 9</span> ~10 min · Trust</div>
+            <h2 class="mod-title">Safety, ethics &amp; truth</h2>
+          </div>
+        </div>
+        <div class="objective"><span class="ic">◆</span><div><b>Outcome:</b> use AI responsibly and protect yourself — the habits that separate a savvy user from a careless one.</div></div>
+
+        <h3 class="sub">The five things that matter most</h3>
+        <div class="grid two">
+          <div class="card"><h4>🔍 Verify facts</h4><p>Treat factual claims as “probably right.” For anything important, confirm with a trusted source. Ask it for its sources.</p></div>
+          <div class="card"><h4>🔒 Protect your data</h4><p>Don’t paste passwords, financial details, IDs, or others’ private info. Check your tool’s privacy &amp; training settings.</p></div>
+          <div class="card"><h4>⚖️ Watch for bias</h4><p>Models learn from human data and can reflect its biases. Be thoughtful with sensitive or high-stakes topics.</p></div>
+          <div class="card"><h4>🧑‍⚖️ Keep human judgment</h4><p>You’re accountable for what you use. AI advises; you decide — especially on health, legal, money, and people.</p></div>
+        </div>
+
+        <div class="note warn"><span class="ic">🌐</span><div><b>Misinformation &amp; deepfakes:</b> AI can generate convincing fake text, images, audio, and video. Be skeptical of sensational media, and be transparent when AI helped create something you share.</div></div>
+
+        <h3 class="sub">A simple responsible-use code</h3>
+        <div class="grid three">
+          <div class="card"><span class="emoji">🪪</span><h4>Be honest</h4><p>Disclose AI use where it matters (work, school, publishing).</p></div>
+          <div class="card"><span class="emoji">🧠</span><h4>Stay sharp</h4><p>Use it to think better, not to stop thinking.</p></div>
+          <div class="card"><span class="emoji">🤝</span><h4>Be fair</h4><p>Respect privacy, copyright, and people’s dignity.</p></div>
+        </div>
+
+        <div class="note key"><span class="ic">🛡️</span><div><b>The one-line rule:</b> “If you wouldn’t put it on a postcard, don’t paste it in. If it really matters, verify it. And you — not the AI — are responsible for what you do with the answer.”</div></div>
+      </section>
+
+      <!-- ===================== MODULE 10 ===================== -->
+      <section class="mod" id="m10">
+        <div class="mod-head">
+          <div class="mod-num alt">10</div>
+          <div class="mod-meta">
+            <div class="mod-time"><span class="chip">Module 10</span> ~8 min · Roadmap</div>
+            <h2 class="mod-title">Your 7-day roadmap</h2>
+          </div>
+        </div>
+        <div class="objective"><span class="ic">◆</span><div><b>Outcome:</b> a concrete plan to turn today’s knowledge into a lasting skill. Fluency comes from a week of small daily reps.</div></div>
+
+        <div class="roadmap">
+          <div class="day"><div class="dn">Day 1</div><div><b>Replace one task</b><p>Pick a thing you do anyway (an email, a plan) and do it with AI using R-T-C-F.</p></div></div>
+          <div class="day"><div class="dn">Day 2</div><div><b>Set up personalization</b><p>Add custom instructions / memory so it knows your role and preferred style.</p></div></div>
+          <div class="day"><div class="dn">Day 3</div><div><b>Use a power feature</b><p>Upload a document or image and ask it to analyze or summarize.</p></div></div>
+          <div class="day"><div class="dn">Day 4</div><div><b>Try two patterns</b><p>Use “interview me first” and “few-shot examples” on a real task.</p></div></div>
+          <div class="day"><div class="dn">Day 5</div><div><b>Make a workspace</b><p>Create a Project / Custom GPT for something you do often.</p></div></div>
+          <div class="day"><div class="dn">Day 6</div><div><b>Verify &amp; refine</b><p>Practice fact-checking an answer and improving a draft with critique.</p></div></div>
+          <div class="day"><div class="dn">Day 7</div><div><b>Teach someone</b><p>Show a friend one thing you learned — teaching cements it.</p></div></div>
+        </div>
+
+        <div class="note tip"><span class="ic">🌱</span><div><b>The habit that matters:</b> reach for AI <i>first</i> when you start a task, even a small one. In a week it stops feeling like a tool and starts feeling like a teammate.</div></div>
+
+        <h3 class="sub">Keep learning</h3>
+        <div class="grid three">
+          <div class="card"><span class="emoji">📰</span><h4>Follow the makers</h4><p>The blogs/changelogs of Anthropic, OpenAI &amp; Google announce new features first.</p></div>
+          <div class="card"><span class="emoji">🧪</span><h4>Experiment weekly</h4><p>Try one new feature or use case each week. Curiosity beats courses.</p></div>
+          <div class="card"><span class="emoji">👥</span><h4>Learn in public</h4><p>Share prompts &amp; wins with peers — communities accelerate everyone.</p></div>
+        </div>
+
+        <div class="note key"><span class="ic">🎉</span><div><b>You’ve completed the intensive.</b> Two hours ago AI may have felt mysterious. Now you understand how it works, what to use, how to prompt like a pro, the power features, the risks, and your next steps. That’s genuinely the full picture. <b>Welcome to capable.</b></div></div>
+      </section>
+
+      <div class="hour-divider"><span class="ln"></span><span class="lbl">Reference &amp; takeaways</span><span class="ln"></span></div>
+
+      <!-- ===================== CHEAT SHEET ===================== -->
+      <section class="mod" id="cheat">
+        <div class="mod-head">
+          <div class="mod-num alt">📋</div>
+          <div class="mod-meta">
+            <div class="mod-time"><span class="chip">Takeaway</span> Print &amp; keep</div>
+            <h2 class="mod-title">Master cheat sheet</h2>
+          </div>
+        </div>
+        <p>The whole cohort condensed onto one page. <b>Print → Save as PDF</b> and keep it next to you for your first week.</p>
+
+        <div class="cheat">
+          <div class="ch-h"><h3>🪄 The AI Power-User Card</h3><button class="btn tiny" onclick="window.print()">🖨️ Print</button></div>
+          <div class="ch-grid">
+            <div class="ch-col">
+              <h5>🧩 The recipe — R-T-C-F</h5>
+              <ul>
+                <li><b>Role</b> — who it acts as</li>
+                <li><b>Task</b> — what to do</li>
+                <li><b>Context</b> — the details it needs</li>
+                <li><b>Format</b> — how it should look</li>
+              </ul>
+              <h5>🧠 Patterns to reach for</h5>
+              <ul>
+                <li>Persona · Few-shot examples</li>
+                <li>“Think step by step”</li>
+                <li>“Ask me questions first”</li>
+                <li>“Using only the text below…”</li>
+                <li>“Critique, then improve it”</li>
+              </ul>
+              <h5>💬 Magic follow-ups</h5>
+              <ul>
+                <li><code>Make it shorter / simpler.</code></li>
+                <li><code>Give me 3 versions.</code></li>
+                <li><code>What should I double-check?</code></li>
+              </ul>
+            </div>
+            <div class="ch-col">
+              <h5>⚡ Power features</h5>
+              <ul>
+                <li>📎 Files · 👁️ Images · 🎙️ Voice</li>
+                <li>🌐 Web search · 🧠 Memory</li>
+                <li>🗂️ Projects · 🎨 Image gen</li>
+              </ul>
+              <h5>✅ Trust it for</h5>
+              <ul>
+                <li>Writing, summarizing, explaining</li>
+                <li>Brainstorming, planning, organizing</li>
+              </ul>
+              <h5>⚠️ Verify / protect</h5>
+              <ul>
+                <li>Facts, numbers, news, citations</li>
+                <li>Never paste secrets or private data</li>
+              </ul>
+              <h5>🔒 Golden rule</h5>
+              <ul>
+                <li>Postcard test in. Verify what matters. <b>You</b> decide.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== GLOSSARY / FAQ ===================== -->
+      <section class="mod" id="glossary">
+        <div class="mod-head">
+          <div class="mod-num alt">★</div>
+          <div class="mod-meta">
+            <div class="mod-time"><span class="chip">Reference</span> Look here anytime</div>
+            <h2 class="mod-title">Glossary &amp; FAQ</h2>
+          </div>
+        </div>
+
+        <h3 class="sub">Every term you’ll hear, in plain English</h3>
+        <div class="grid two">
+          <div class="card"><h4>AI</h4><p>Software that performs tasks needing “intelligence” — here, understanding &amp; generating language.</p></div>
+          <div class="card"><h4>LLM</h4><p>“Large Language Model” — the prediction engine behind chat assistants.</p></div>
+          <div class="card"><h4>Prompt</h4><p>The message/instruction you give the AI.</p></div>
+          <div class="card"><h4>Token</h4><p>A small chunk of text the model processes. Long inputs = more tokens.</p></div>
+          <div class="card"><h4>Context window</h4><p>How much it can “hold in mind” at once — its working memory.</p></div>
+          <div class="card"><h4>Hallucination</h4><p>A confident but false answer. Always verify facts.</p></div>
+          <div class="card"><h4>Model</h4><p>A specific AI “brain” version (e.g. Claude Opus, GPT-4-class). Newer ≈ smarter.</p></div>
+          <div class="card"><h4>Multimodal</h4><p>Handles more than text — images, audio, sometimes video.</p></div>
+          <div class="card"><h4>Fine-tuning</h4><p>Extra training to specialize a model for a task or style.</p></div>
+          <div class="card"><h4>Agent</h4><p>AI that takes actions and completes multi-step tasks, not just chats.</p></div>
+          <div class="card"><h4>RAG</h4><p>“Retrieval” — feeding the AI your documents so answers are grounded in them.</p></div>
+          <div class="card"><h4>Knowledge cutoff</h4><p>The date its built-in knowledge stops (web search gets around it).</p></div>
+        </div>
+
+        <h3 class="sub">Questions everyone asks</h3>
+        <div class="faq">
+          <details><summary><span class="q"><span class="qm">Q</span> Do I need to be technical?</span></summary><div class="ans">No. If you can send a text, you can use AI — you just talk to it in plain language. This whole cohort assumes zero background.</div></details>
+          <details><summary><span class="q"><span class="qm">Q</span> Is it free, and is it safe to use?</span></summary><div class="ans">All major tools have capable free tiers. They’re safe for everyday use if you follow Module 9: don’t share secrets, verify important facts, and check your privacy settings.</div></details>
+          <details><summary><span class="q"><span class="qm">Q</span> Why does it sometimes get things wrong?</span></summary><div class="ans">Because it predicts plausible text rather than looking up verified facts (Module 1). It’s superb at language, imperfect at precise facts — so you verify what matters.</div></details>
+          <details><summary><span class="q"><span class="qm">Q</span> Will AI take my job?</span></summary><div class="ans">It’s more likely that people who use AI well will outpace those who don’t. The skill you built today is exactly that edge.</div></details>
+          <details><summary><span class="q"><span class="qm">Q</span> Which single tool should a beginner pick?</span></summary><div class="ans">Any major one — Claude, ChatGPT, or Gemini. Get fluent in one; the skills transfer. Switch later if you want.</div></details>
+          <details><summary><span class="q"><span class="qm">Q</span> How do I keep up as it changes fast?</span></summary><div class="ans">You don’t need to chase everything. Master the fundamentals (done!), then try one new feature a week. Fundamentals barely change; features just get better.</div></details>
+        </div>
+      </section>
+
+      <footer>
+        <div class="big">Cohort complete. You’re capable now. 🎓</div>
+        <p>Bookmark this page as your reference. Revisit any module, lean on the cheat sheet, and run the 7-day roadmap. The one rule that carries you forever: <b>keep using it.</b></p>
+        <div class="fr">
+          <button class="btn" onclick="document.getElementById('welcome').scrollIntoView()">↑ Back to top</button>
+          <button class="btn" onclick="window.print()">🖨️ Print cheat sheet</button>
+          <button class="btn" id="presentBtn2">▣ Focus mode</button>
+        </div>
+        <p style="color:var(--faint);font-size:13px;margin-top:22px">The AI Intensive · A 2-hour beginner-to-capable cohort · Self-paced.</p>
+      </footer>
+
+    </div><!-- /wrap -->
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+<div class="presenter-nav">
+  <button class="btn tiny" id="pPrev">← Prev</button>
+  <span class="pos" id="pPos">1 / 13</span>
+  <button class="btn tiny" id="pNext">Next →</button>
+  <button class="btn tiny" id="pExit">✕ Exit</button>
+</div>
+
+<script>
+/* ===== TIMER (2 hr pacing) ===== */
+let started=null, tick=null;
+const clockEl=document.getElementById('clock'), phaseEl=document.getElementById('phase');
+const phases=[
+  [0,"M1 · How AI works"],[12,"M2 · Landscape"],[22,"M3 · Prompting"],[40,"M4 · Patterns"],
+  [52,"M5 · Power features"],[67,"M6 · Workflows"],[82,"M7 · Build it"],[94,"M8 · Agents"],
+  [102,"M9 · Safety"],[112,"M10 · Roadmap"],[120,"🎉 Complete!"]
+];
+function fmt(s){const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return h+":"+String(m).padStart(2,'0')+":"+String(x).padStart(2,'0');}
+function curPhase(mins){let l=phases[0][1];for(const[t,x]of phases){if(mins>=t)l=x;}return l;}
+function update(){const s=Math.floor((Date.now()-started)/1000);clockEl.textContent=fmt(s);phaseEl.textContent="▶ "+curPhase(Math.floor(s/60));}
+document.getElementById('startBtn').addEventListener('click',function(){
+  if(started){clearInterval(tick);tick=null;started=null;this.textContent="▶ Resume";phaseEl.textContent="⏸ Paused";return;}
+  started=Date.now();this.textContent="⏸ Pause";update();tick=setInterval(update,1000);
+});
+document.getElementById('resetBtn').addEventListener('click',function(){
+  clearInterval(tick);tick=null;started=null;clockEl.textContent="0:00:00";phaseEl.textContent="Timer off";document.getElementById('startBtn').textContent="▶ Start";
+});
+
+/* ===== SCROLL-SPY + RING ===== */
+const links=[...document.querySelectorAll('nav.toc a')];
+const sections=links.map(a=>document.querySelector(a.getAttribute('href')));
+const total=sections.filter(Boolean).length, seen=new Set();
+const ringfill=document.getElementById('ringfill'), CIRC=113;
+function onScroll(){
+  let idx=0;sections.forEach((sec,i)=>{if(sec&&sec.getBoundingClientRect().top<150)idx=i;});
+  links.forEach(l=>l.classList.remove('active'));if(links[idx])links[idx].classList.add('active');
+  for(let i=0;i<=idx;i++)seen.add(i);
+  const pct=Math.round(seen.size/total*100);
+  ringfill.style.strokeDashoffset=CIRC-(CIRC*pct/100);
+  document.getElementById('ringpct').textContent=pct+"%";
+  document.getElementById('progtxt').textContent="Module "+seen.size+" of "+total;
+}
+window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* ===== CHECKLISTS ===== */
+document.querySelectorAll('.checklist li').forEach(li=>li.addEventListener('click',()=>li.classList.toggle('done')));
+
+/* ===== PROMPT BUILDER ===== */
+const R=document.getElementById('b_role'),T=document.getElementById('b_task'),C=document.getElementById('b_ctx'),F=document.getElementById('b_fmt'),OUT=document.getElementById('b_out');
+function esc(s){return s.replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));}
+function buildPrompt(){
+  const r=R.value.trim(),t=T.value.trim(),c=C.value.trim(),f=F.value.trim();
+  if(!r&&!t&&!c&&!f){OUT.innerHTML='<span class="empty">Your prompt will appear here as you type…</span>';return;}
+  let p=[];
+  if(r)p.push("Act as <b>"+esc(r)+"</b>.");
+  if(t)p.push("Your task: <b>"+esc(t)+"</b>.");
+  if(c)p.push("Context: "+esc(c)+".");
+  if(f)p.push("Format the answer as: <b>"+esc(f)+"</b>.");
+  OUT.innerHTML=p.join(" ");
+}
+[R,T,C,F].forEach(el=>el.addEventListener('input',buildPrompt));
+function fillExample(){R.value="a patient maths tutor";T.value="explain percentages";C.value="for an adult who finds maths intimidating";F.value="3 real-life examples in simple words";buildPrompt();}
+function clearBuilder(){R.value=T.value=C.value=F.value="";buildPrompt();}
+function copyPrompt(){const txt=OUT.innerText;if(!txt||txt.includes("appear here"))return;navigator.clipboard?.writeText(txt).then(()=>{const b=document.getElementById('copyBtn');const o=b.textContent;b.textContent="✓ Copied!";setTimeout(()=>b.textContent=o,1400);});}
+
+/* ===== DARK MODE ===== */
+const htmlEl=document.documentElement, tb=document.getElementById('themeBtn');
+tb.addEventListener('click',()=>{const d=htmlEl.getAttribute('data-theme')==='dark';htmlEl.setAttribute('data-theme',d?'light':'dark');tb.textContent=d?'🌙':'☀️';});
+
+/* ===== FOCUS MODE ===== */
+const mods=[...document.querySelectorAll('section.mod')];let cur=0,presenting=false;
+function showSlide(i){cur=Math.max(0,Math.min(mods.length-1,i));mods.forEach((m,k)=>m.classList.toggle('show',k===cur));document.getElementById('pPos').textContent=(cur+1)+" / "+mods.length;window.scrollTo({top:0});}
+function enterPresent(){presenting=true;document.body.classList.add('presenting');showSlide(cur);}
+function exitPresent(){presenting=false;document.body.classList.remove('presenting');mods.forEach(m=>m.classList.remove('show'));}
+document.getElementById('presentBtn').addEventListener('click',enterPresent);
+document.getElementById('presentBtn2').addEventListener('click',enterPresent);
+document.getElementById('pNext').addEventListener('click',()=>showSlide(cur+1));
+document.getElementById('pPrev').addEventListener('click',()=>showSlide(cur-1));
+document.getElementById('pExit').addEventListener('click',exitPresent);
+document.addEventListener('keydown',e=>{
+  if(!presenting)return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();showSlide(cur+1);}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();showSlide(cur-1);}
+  if(e.key==='Escape')exitPresent();
+});
+</script>
+</body>
+</html>
