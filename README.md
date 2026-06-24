@@ -4,7 +4,7 @@ A free, self-paced **2-hour course** that takes complete beginners from *“I’
 
 It’s a single, self-contained `index.html` — no build step, no dependencies, no backend. Just open it in a browser.
 
-🔗 **Live site:** _add your URL here once deployed_ (e.g. `https://learn-ai-with-swagata.netlify.app`)
+🔗 **Live site:** **[understand-ai-with-swagata-banerjee.netlify.app](https://understand-ai-with-swagata-banerjee.netlify.app/)**
 
 ---
 
