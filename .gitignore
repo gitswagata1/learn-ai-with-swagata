@@ -1,0 +1,5 @@
+# macOS
+.DS_Store
+
+# Generated deploy copy (build artifact of index.html)
+dist/
