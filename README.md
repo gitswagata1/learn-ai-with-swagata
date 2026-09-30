@@ -1,10 +1,24 @@
+<div align=”center”>
+
 # Learn AI with Swagata
 
-A free, self-paced **2-hour course** that takes complete beginners from *“I’ve never used it”* to **genuinely capable** with AI — understanding how it works, mastering prompting, unlocking the power features, and building real workflows.
+**A free, self-paced 2-hour AI course — from zero to genuinely capable.**
 
-It’s a single, self-contained `index.html` — no build step, no dependencies, no backend. Just open it in a browser.
+![HTML](https://img.shields.io/badge/HTML-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS](https://img.shields.io/badge/CSS-1572B6?style=flat-square&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![License](https://img.shields.io/badge/License-Free-brightgreen?style=flat-square)
+![Modules](https://img.shields.io/badge/Modules-10-A855F7?style=flat-square)
 
-🔗 **Live site:** **[understand-ai-with-swagata-banerjee.netlify.app](https://understand-ai-with-swagata-banerjee.netlify.app/)**
+[**Live Demo**](https://understand-ai-with-swagata-banerjee.netlify.app/) · [**Curriculum**](#-curriculum) · [**Run Locally**](#-run-it-locally)
+
+</div>
+
+---
+
+Takes complete beginners from *”I’ve never used it”* to building real AI workflows — understanding how it works, mastering prompting, unlocking power features, and thinking about safety.
+
+Single self-contained `index.html`. No build step, no dependencies, no backend. Just open it in a browser.
 
 ---
 
