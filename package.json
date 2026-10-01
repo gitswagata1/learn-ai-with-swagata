@@ -1,0 +1,16 @@
+{
+  "name": "learn-ai-with-swagata",
+  "version": "1.0.0",
+  "description": "A free, self-paced 2-hour AI course — from zero to genuinely capable. Single-page app, no dependencies.",
+  "keywords": ["ai", "education", "course", "beginner", "free"],
+  "author": "Swagata Banerjee <theswagata1@gmail.com> (https://github.com/gitswagata1)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gitswagata1/learn-ai-with-swagata.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "start": "python3 -m http.server 8000"
+  },
+  "private": true
+}
