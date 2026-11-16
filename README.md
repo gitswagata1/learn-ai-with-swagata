@@ -76,6 +76,13 @@ for the `main` branch root; the included `.nojekyll` file makes sure files are s
 Corrections and improvements are welcome. Open an issue using the templates in
 `.github/ISSUE_TEMPLATE`, or send a pull request.
 
+## Roadmap, contributing and citation
+
+- **Roadmap:** [ROADMAP.md](ROADMAP.md) lists planned work and directions for the project.
+- **Contributing:** see [CONTRIBUTING.md](CONTRIBUTING.md) and the
+  [Code of Conduct](CODE_OF_CONDUCT.md). Issues labelled `good first issue` are a friendly start.
+- **Citation:** [CITATION.cff](CITATION.cff) powers GitHub's "Cite this repository" button.
+
 ## License
 
 Released under the [MIT License](LICENSE).

@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Learn AI with Swagata"
+abstract: "A free, self-paced two-hour course on practical AI, delivered as a single dependency-free web page."
+type: software
+authors:
+  - family-names: "Banerjee"
+    given-names: "Swagata"
+repository-code: "https://github.com/gitswagata1/learn-ai-with-swagata"
+license: MIT
+version: "1.0.0"
+date-released: "2026-11-16"
+keywords:
+  - ai
+  - education
+  - course
+  - prompt-engineering
